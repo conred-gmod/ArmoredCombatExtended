@@ -75,7 +75,7 @@ function ENT:PhysicsCollide( Table )
 
 	if not IsValid(HitEnt) then return end
 
-	if HitEnt:IsNPC() or (HitEnt:IsPlayer() and not HitEnt:HasGodMode()) then
+	if HitEnt:IsNPC() or (HitEnt:IsPlayer() and not HitEnt:HasGodMode() and hook.Run("PlayerShouldTakeDamage", HitEnt, self:GetOwner())) then
 		if vFireInstalled then
 			CreateVFireEntFires(HitEnt, 3)
 		else
