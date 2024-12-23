@@ -32,7 +32,7 @@ local function modepermission(owner, attacker, ent)
 		local entpos = ent:GetPos()
 		local attpos = attacker:GetPos()
 
-		if (perms.IsInSafezone(entpos) or perms.IsInSafezone(attpos)) and not ownerperms[attackerid] then return false end
+		if not ownerperms[attackerid] then return false end
 	end
 
 	if ent:IsPlayer() or ent:IsNPC() then

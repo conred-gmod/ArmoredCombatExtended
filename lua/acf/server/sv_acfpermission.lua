@@ -8,115 +8,15 @@ local this = ACF.Permissions
 --TODO: make player-customizable
 this.Selfkill = true
 
-this.Safezones = false
-
 this.Player = {}
 this.Modes = {}
 this.ModeDescs = {}
 this.ModeThinks = {}
-this.NotifySafezones = {}
 
 --TODO: convar this
-local mapSZDir = "acf/safezones/"
 local mapDPMDir = "acf/permissions/"
 file.CreateDir(mapDPMDir)
 
-
-
-local function msgtoconsole()
-	--print(msg)
-end
-
-
-
-
-local function resolveAABBs(mins, maxs)
-
-	--[[
-	for xyz, val in pairs(mins) do	-- ensuring points conform to AABB mins/maxs
-		if val > maxs.xyz then
-			local store = maxs.xyz
-			maxs.xyz = val
-			mins.xyz = store
-		end
-	end
-	----]]
-
-	local store
-	if mins.x > maxs.x then
-		store = maxs.x
-		maxs.x = mins.x
-		mins.x = store
-	end
-
-	if mins.y > maxs.y then
-		store = maxs.y
-		maxs.y = mins.y
-		mins.y = store
-	end
-
-	if mins.z > maxs.z then
-		store = maxs.z
-		maxs.z = mins.z
-		mins.z = store
-	end
-
-	return mins, maxs
-end
-
---TODO: sanitize safetable instead of marking it all as bad
-local function validateSZs(safetable)
-	if type(safetable) ~= "table" then return false end
-
-	--PrintTable(safetable)
-
-	for k, v in pairs(safetable) do
-		if type(k) ~= "string" then return false end
-		if not (#v == 2 and v[1] and v[2]) then return false end
-
-		for _, b in ipairs(v) do
-			if not (b.x and b.y and b.z) then return false end
-		end
-
-		local mins = v[1]
-		local maxs = v[2]
-
-		mins, maxs = resolveAABBs(mins, maxs)
-
-	end
-
-	return true
-end
-
-local function getMapFilename()
-
-	local mapname = string.gsub(game.GetMap(), "[ ^ %a%d-_]", "_")
-	return mapSZDir .. mapname .. ".txt"
-
-end
-
-local function getMapSZs()
-	local mapname = getMapFilename()
-	local mapSZFile = file.Read(mapname, "DATA") or ""
-
-	local safezones = util.JSONToTable(mapSZFile)
-
-	if not validateSZs(safezones) then
-		-- TODO: generate default safezones around spawnpoints.
-		return false
-	end
-
-	this.Safezones = safezones
-
-	timer.Simple( 5, function() this.visualizeSafeZones() end )
-
-	return true
-end
-
-hook.Add( "CleanUpMap", "RestoreSZsCleanup", function( _ )
-	--getMapSZs()
-	this.visualizeSafeZones()
-end )
 
 local function SaveMapDPM(mode)
 	local mapname = string.gsub(game.GetMap(), "[ ^ %a%d-_]", "_")
@@ -127,183 +27,6 @@ local function LoadMapDPM()
 	local mapname = string.gsub(game.GetMap(), "[ ^ %a%d-_]", "_")
 	return file.Read(mapDPMDir .. mapname .. ".txt", "DATA")
 end
-
-function this.visualizeSafeZones()
-
-	if not this.Safezones then return false end
-
-	--szname is _ because unused. I could potentially color the visual safezones???
-	for _, szpts in pairs(this.Safezones) do
-		szmin = szpts[1]
-		szmax = szpts[2]
-		ACE_VisualizeSZ(szmin, szmax)
-	end
-
-	return false
-end
-
-
-hook.Add( "Initialize", "ACF_LoadSafesForMap", function()
-	if not getMapSZs() then
-		print("!!!!!!!!!!!!!!!!!!\n[ACE | WARNING]- Safezone file " .. getMapFilename() .. " is missing, invalid or corrupt!  Safezones will not be restored this time.\n!!!!!!!!!!!!!!!!!!")
-	end
-end )
-
-hook.Add("ACF_PlayerChangedZone", "ACF_TellPlyAboutSafezoneBattle", function(ply, zone)
-	if not this.NotifySafezones[table.KeyFromValue(this.Modes, this.DamagePermission)] then return end
-
-	ACE_SendMsg(ply, zone and Color(0, 255, 0) or Color(255, 0, 0), "You have entered the " .. (zone and zone .. " safezone." or "battlefield!"))
-end)
-
-local plyzones = {}
-hook.Add("Think", "ACF_DetectSZTransition", function()
-	for _, ply in pairs(player.GetAll()) do
-		local sid = ply:SteamID()
-		--local trans = false
-		local pos = ply:GetPos()
-		local oldzone = plyzones[sid]
-
-		local zone = this.IsInSafezone(pos) or nil
-		plyzones[sid] = zone
-
-		if oldzone ~= zone then
-			hook.Call("ACF_PlayerChangedZone", GAMEMODE, ply, zone, oldzone)
-		end
-	end
-end)
-
-
-concommand.Add( "ACF_AddSafeZone", function(ply, _, args)
-	local validply = IsValid(ply)
-	local printmsg = validply and function(hud, msg) ply:PrintMessage(hud, msg) end or msgtoconsole
-
-	if not args[1] then printmsg(HUD_PRINTCONSOLE,
-		" - Add a safezone as an AABB box." ..
-		"\n	Input a name and six numbers.  First three numbers are minimum co-ords, last three are maxs." ..
-		"\n	Example; ACF_addsafezone airbase -500 -500 0 500 500 1000")
-		return false
-	end
-
-	if validply and not ply:IsAdmin() then
-		printmsg(HUD_PRINTCONSOLE, "You can't use this because you are not an admin.")
-		return false
-
-	else
-		local szname = tostring(args[1])
-		args[1] = nil
-		local default = tostring(args[8])
-		if default ~= "default" then default = nil end
-
-		if not this.Safezones then this.Safezones = {} end
-
-		if this.Safezones[szname] and this.Safezones[szname].default then
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: an unmodifiable safezone called " .. szname .. " already exists!")
-			return false
-		end
-
-		for k, v in ipairs(args) do
-			args[k] = tonumber(v)
-			if args[k] == nil then
-				printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: argument " .. k .. " could not be interpreted as a number (" .. v .. ")")
-				return false
-			end
-		end
-
-		local mins = Vector(args[2], args[3], args[4])
-		local maxs = Vector(args[5], args[6], args[7])
-		mins, maxs = resolveAABBs(mins, maxs)
-
-		this.Safezones[szname] = {mins, maxs}
-		if default then this.Safezones[szname].default = true end
-		printmsg(HUD_PRINTCONSOLE, "Command SUCCESSFUL: added a safezone called " .. szname .. " between " .. tostring(mins) .. " and " .. tostring(maxs) .. "!")
-		return true
-	end
-end)
-
-concommand.Add( "ACF_RemoveSafeZone", function(ply, _, args)
-	local validply = IsValid(ply)
-	local printmsg = validply and function(hud, msg) ply:PrintMessage(hud, msg) end or msgtoconsole
-
-	if not args[1] then printmsg(HUD_PRINTCONSOLE,
-		" - Delete a safezone using its name." ..
-		"\n	Input a safezone name.  If it exists, it will be removed." ..
-		"\n	Deletion is not permanent until safezones are saved.")
-		return false
-	end
-
-	if validply and not ply:IsAdmin() then
-		printmsg(HUD_PRINTCONSOLE, "You can't use this because you are not an admin.")
-		return false
-
-	else
-		local szname = tostring(args[1])
-		if not szname then
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: could not interpret your input as a string.")
-			return false
-		end
-
-		if not (this.Safezones and this.Safezones[szname]) then
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: could not find a safezone called " .. szname .. ".")
-			return false
-		end
-
-		if this.Safezones[szname].default then
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: an unmodifiable safezone called " .. szname .. " already exists!")
-			return false
-		end
-
-		this.Safezones[szname] = nil
-		printmsg(HUD_PRINTCONSOLE, "Command SUCCESSFUL: removed the safezone called " .. szname .. "!")
-		return true
-	end
-end)
-
-
-concommand.Add( "ACF_SaveSafeZones", function(ply)
-	local validply = IsValid(ply)
-	local printmsg = validply and function(hud, msg) ply:PrintMessage(hud, msg) end or msgtoconsole
-
-	if validply and not ply:IsAdmin() then
-		printmsg(HUD_PRINTCONSOLE, "You can't use this because you are not an admin.")
-		return false
-
-	else
-		if not this.Safezones then
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: There are no safezones on the map which can be saved.")
-			return false
-		end
-
-		local szjson = util.TableToJSON(this.Safezones)
-
-		local mapname = getMapFilename()
-		file.CreateDir(mapSZDir)
-		file.Write(mapname, szjson)
-
-		printmsg(HUD_PRINTCONSOLE, "Command SUCCESSFUL: All safezones on the map have been made restorable.")
-		return true
-	end
-end)
-
-
-concommand.Add( "ACF_ReloadSafeZones", function(ply)
-	local validply = IsValid(ply)
-	local printmsg = validply and function(hud, msg) ply:PrintMessage(hud, msg) end or msgtoconsole
-
-	if validply and not ply:IsAdmin() then
-		printmsg(HUD_PRINTCONSOLE, "You can't use this because you are not an admin.")
-		return false
-
-	else
-		local ret = getMapSZs()
-
-		if ret then
-			printmsg(HUD_PRINTCONSOLE, "Command SUCCESSFUL: All safezones on the map have been restored.")
-		else
-			printmsg(HUD_PRINTCONSOLE, "Command unsuccessful: Safezone file for this map is missing, invalid or corrupt.")
-		end
-		return ret
-	end
-end)
 
 
 concommand.Add( "ACF_SetPermissionMode", function(ply, _, args)
@@ -434,31 +157,11 @@ end
 hook.Add("ACF_ProtectionModeChanged", "ACF_TellPlysAboutDPMode", tellPlysAboutDPMode)
 
 
-
-
-function this.IsInSafezone(pos)
-
-	if not this.Safezones then return false end
-
-	local szmin, szmax
-	for szname, szpts in pairs(this.Safezones) do
-		szmin = szpts[1]
-		szmax = szpts[2]
-
-		if	(pos.x > szmin.x and pos.y > szmin.y and pos.z > szmin.z) and
-			(pos.x < szmax.x and pos.y < szmax.y and pos.z < szmax.z) then
-			return szname
-		end
-	end
-	return false
-end
-
-function this.RegisterMode(mode, name, desc, default, think, defaultaction, notifysafezones)
+function this.RegisterMode(mode, name, desc, default, think, defaultaction)
 
 	this.Modes[name] = mode
 	this.ModeDescs[name] = desc
 	this.ModeThinks[name] = think or function() end
-	this.NotifySafezones[name] = notifysafezones or false
 	this.DefaultCanDamage = defaultaction or false
 	print("[ACE | INFO]- Registered damage permission mode \"" .. name .. "\"!")
 
@@ -578,8 +281,6 @@ local function onDisconnect( ply )
 	if this.Player[plyid] then
 		this.Player[plyid] = nil
 	end
-
-	plyzones[plyid] = nil
 end
 hook.Add( "PlayerDisconnected", "ACF_PermissionDisconnect", onDisconnect )
 
