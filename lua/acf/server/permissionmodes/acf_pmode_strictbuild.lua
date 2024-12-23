@@ -59,4 +59,4 @@ local function modepermission(owner, attacker)
 end
 
 
-perms.RegisterMode(modepermission, modename, modedescription, false, nil, DefaultPermission)
+perms.RegisterMode(modepermission, modename, modedescription, true, nil, DefaultPermission)
