@@ -64,6 +64,8 @@ do
 	--If the Origin is an entity, uses entity:EmitSound( SoundTxt , SoundLevel, Pitch, Volume )
 	--If the Origin is a vector Position, uses sound.Play(SoundTxt, Position, SoundLevel, Pitch, Volume)
 	function ACE_EmitSound( SoundTxt, Origin, SoundLevel, Pitch, Volume )
+		if SoundTxt == nil then return end
+		-- TODO: trace when nil gets here
 
 		Volume = math.min( Volume, 1 )
 		local VolumeConfig = GetConVar("acf_sound_volume"):GetInt() / 100
