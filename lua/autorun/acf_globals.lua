@@ -233,12 +233,17 @@ if SERVER then
 
 	-- Toggles for vehicle legality restrictions
 	CreateConVar( "acf_legality_enginesrequirefuel", 1 , FCVAR_ARCHIVE)
+	ACF.EnginesRequireFuel = GetConVar("acf_legality_enginesrequirefuel"):GetInt()
 
 	CreateConVar( "acf_legality_largeenginesneeddriver", 1 , FCVAR_ARCHIVE)
 	CreateConVar( "acf_legality_largeenginethreshold", 100 , FCVAR_ARCHIVE)
+	ACF.LargeEnginesRequireDrivers = GetConVar("acf_legality_largeenginesneeddriver"):GetInt()
+	ACF.LargeEngineThreshold = GetConVar("acf_legality_largeenginethreshold"):GetInt()
 
 	CreateConVar( "acf_legality_largegunsneedgunner", 1 , FCVAR_ARCHIVE)
 	CreateConVar( "acf_legality_largegunthreshold", 40 , FCVAR_ARCHIVE)
+	ACF.LargeGunsRequireGunners = GetConVar("acf_legality_largegunsneedgunner"):GetInt()
+	ACF.LargeGunsThreshold = GetConVar("acf_legality_largegunthreshold"):GetInt()
 
 	-- Cvars for legality checking
 	CreateConVar( "acf_legalcheck", 1 , FCVAR_ARCHIVE)
