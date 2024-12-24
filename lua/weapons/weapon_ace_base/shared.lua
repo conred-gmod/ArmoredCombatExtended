@@ -385,11 +385,11 @@ function SWEP:Holster()
 	if SERVER then
 		self:SetZoomState(false)
 		self:SetOwnerZoomSpeed(false)
-		local owner = self:GetOwner()
-		if IsValid(owner) and owner:IsPlayer() then
-			self:GetOwner():SetWalkSpeed(self.NormalPlayerWalkSpeed)
-			self:GetOwner():SetRunSpeed(self.NormalPlayerRunSpeed)
-		end
+		-- local owner = self:GetOwner()
+		-- if IsValid(owner) and owner:IsPlayer() then
+		-- 	self:GetOwner():SetWalkSpeed(self.NormalPlayerWalkSpeed)
+		-- 	self:GetOwner():SetRunSpeed(self.NormalPlayerRunSpeed)
+		-- end
 	end
 
 	if self.ShotgunReload then
@@ -527,15 +527,15 @@ end
 function SWEP:SetOwnerZoomSpeed(setSpeed)
 	if CLIENT then return end
 
-	local owner = self:GetOwner()
+	-- local owner = self:GetOwner()
 
-	if IsValid(owner) and owner:IsPlayer() then
-		if setSpeed then
-			owner:SetWalkSpeed(math.min(self.NormalPlayerWalkSpeed * 0.5 * self.CarrySpeedMul, self.NormalPlayerWalkSpeed))
-			owner:SetRunSpeed(math.min(self.NormalPlayerRunSpeed * 0.5 * self.CarrySpeedMul, self.NormalPlayerRunSpeed))
-		elseif self.NormalPlayerWalkSpeed and self.NormalPlayerRunSpeed then
-			owner:SetWalkSpeed(math.min(self.NormalPlayerWalkSpeed * self.CarrySpeedMul, self.NormalPlayerWalkSpeed))
-			owner:SetRunSpeed(math.min(self.NormalPlayerRunSpeed * self.CarrySpeedMul, self.NormalPlayerRunSpeed))
-		end
-	end
+	-- if IsValid(owner) and owner:IsPlayer() then
+	-- 	if setSpeed then
+	-- 		owner:SetWalkSpeed(math.min(self.NormalPlayerWalkSpeed * 0.5 * self.CarrySpeedMul, self.NormalPlayerWalkSpeed))
+	-- 		owner:SetRunSpeed(math.min(self.NormalPlayerRunSpeed * 0.5 * self.CarrySpeedMul, self.NormalPlayerRunSpeed))
+	-- 	elseif self.NormalPlayerWalkSpeed and self.NormalPlayerRunSpeed then
+	-- 		owner:SetWalkSpeed(math.min(self.NormalPlayerWalkSpeed * self.CarrySpeedMul, self.NormalPlayerWalkSpeed))
+	-- 		owner:SetRunSpeed(math.min(self.NormalPlayerRunSpeed * self.CarrySpeedMul, self.NormalPlayerRunSpeed))
+	-- 	end
+	-- end
 end

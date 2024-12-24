@@ -136,10 +136,10 @@ function SWEP:OnRemove()
 		end
 	end)
 
-	if IsValid(owner) and owner:IsPlayer() then
-		owner:SetWalkSpeed( self.NormalPlayerWalkSpeed)
-		owner:SetRunSpeed( self.NormalPlayerRunSpeed)
-	end
+	-- if IsValid(owner) and owner:IsPlayer() then
+	-- 	owner:SetWalkSpeed( self.NormalPlayerWalkSpeed)
+	-- 	owner:SetRunSpeed( self.NormalPlayerRunSpeed)
+	-- end
 
 end
 
@@ -160,8 +160,8 @@ function SWEP:Deploy()
 	self.NormalPlayerWalkSpeed = owner:GetWalkSpeed()
 	self.NormalPlayerRunSpeed = owner:GetRunSpeed()
 
-	owner:SetWalkSpeed( self.NormalPlayerWalkSpeed * self.CarrySpeedMul )
-	owner:SetRunSpeed( self.NormalPlayerRunSpeed * self.CarrySpeedMul * 0.8)
+	-- owner:SetWalkSpeed( self.NormalPlayerWalkSpeed * self.CarrySpeedMul )
+	-- owner:SetRunSpeed( self.NormalPlayerRunSpeed * self.CarrySpeedMul * 0.8)
 	self:SetNextPrimaryFire( CurTime() + self.DeployDelay )
 	self:Think()
 	self:DoAmmoStatDisplay()
