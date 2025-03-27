@@ -1,24 +1,24 @@
 
 local Material		= {}
 
-Material.id			= "RHA"
-Material.name		= "Rolled homogeneous Armor"
-Material.sname		= "RHA"
-Material.desc		= "Simple, generic, but trusty steel. The standard armor everything else is compared to."
-Material.year		= 1900 -- Dont blame about this, ik that RHA has existed before this year but it would be cool to see: when?
+Material.id			= "Ti"
+Material.name		= "Titanium"
+Material.sname		= "Titanium"
+Material.desc		= "Lightweight and super resiliant. But E X P E N S I V E. 60% Lighter than RHA for a given thickness.\nUnlike aluminum works at high thicknesses but for a price."
+Material.year		= 1950 -- Dont blame about this, ik that RHA has existed before this year but it would be cool to see: when?
 
-Material.massMod		= 1
+Material.massMod		= 0.61
 Material.curve		= 1 --Slight and almost unnoticable penalty to high thickness armor
 
 --All effectiveness values multiply the Line of Sight armor values of armor.
 --All Resiliance values are damage multipliers. Higher = more damage. Lower = less damage.
 
-Material.effectiveness  = 1
-Material.resiliance	= 1
+Material.effectiveness  = 1.7
+Material.resiliance	= 0.75
 
-Material.spallresist	= 1.12
+Material.spallresist	= 1
 
-Material.spallmult	= 1
+Material.spallmult	= 0.7
 Material.ArmorMul	= 1
 Material.NormMult	= 1
 

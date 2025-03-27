@@ -3,11 +3,11 @@ local Material		= {}
 
 Material.id			= "CHA"
 Material.name		= "Cast homogeneous Armor"
-Material.sname		= "CHA"
+Material.sname		= "Cast"
 Material.desc		= "Despite of being heavier than RHA, Cast steel material provides more resiliance against damage than its rolled counterpart. Highly vulnerable to spalling."
 Material.year		= 1930
 
-Material.massMod		= 1.25
+Material.massMod		= 1.2
 Material.curve		= 1
 
 --All effectiveness values multiply the Line of Sight armor values of armor.
@@ -72,7 +72,7 @@ if SERVER then
 		-- Projectile did not breach nor penetrate armor
 		local Penetration = math.min( maxPenetration , losArmor * effectiveness )
 
-		HitRes.Damage	= ( Penetration / losArmorHealth / effectiveness ) ^ 2 * FrArea * resiliance * damageMult * ductilitymult
+		HitRes.Damage	= ( Penetration / losArmorHealth / effectiveness ) * FrArea * resiliance * damageMult * ductilitymult
 		HitRes.Overkill = 0
 		HitRes.Loss	= 1
 
