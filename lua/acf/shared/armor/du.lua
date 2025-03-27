@@ -1,24 +1,24 @@
 
 local Material		= {}
 
-Material.id			= "RHA"
-Material.name		= "Rolled homogeneous Armor"
-Material.sname		= "RHA"
-Material.desc		= "Simple, generic, but trusty steel. The standard armor everything else is compared to."
-Material.year		= 1900 -- Dont blame about this, ik that RHA has existed before this year but it would be cool to see: when?
+Material.id			= "DU"
+Material.name		= "Depleted Uranium"
+Material.sname		= "DU"
+Material.desc		= "Heavy yet extremely effective armor. Though costly, a slab of this can stop just about anything.\n Has some nasty secondary effects when penetrated. More effective at higher thicknesses."
+Material.year		= 1970 -- Dont blame about this, ik that RHA has existed before this year but it would be cool to see: when?
 
-Material.massMod		= 1
-Material.curve		= 1 --Slight and almost unnoticable penalty to high thickness armor
+Material.massMod	= 2.43
+Material.curve		= 1.06 --Slight and almost unnoticable penalty to high thickness armor
 
 --All effectiveness values multiply the Line of Sight armor values of armor.
 --All Resiliance values are damage multipliers. Higher = more damage. Lower = less damage.
 
-Material.effectiveness  = 1
-Material.resiliance	= 1
+Material.effectiveness  = 3.9
+Material.resiliance	= 0.9
 
-Material.spallresist	= 1.12
+Material.spallresist	= 1
 
-Material.spallmult	= 1
+Material.spallmult	= 3
 Material.ArmorMul	= 1
 Material.NormMult	= 1
 
@@ -56,6 +56,22 @@ if SERVER then
 		-- Breach chance roll
 		if breachProb > math.random() and maxPenetration > armor then
 
+			local HEWeight  = math.Min(maxPenetration * 0.001, 30) -- #nonukespls
+			local Radius	= ACE_CalculateHERadius( HEWeight )
+			local Owner	= (CPPI and Entity:CPPIGetOwner()) or NULL
+			local EntPos	= Entity:GetPos()
+
+			ACF_HE( EntPos , vector_up , HEWeight , HEWeight , Owner , Entity, Entity ) --ERABOOM
+
+			--util.Effect not working during MP workaround. Waiting a while fixes the issue.
+			timer.Simple(0.001, function()
+				local Flash = EffectData()
+					Flash:SetOrigin( EntPos )
+					Flash:SetNormal( -vector_up )
+					Flash:SetRadius( math.Round(math.max(Radius / 39.37 * 0.25, 1),2) )
+				util.Effect( "ace_scaled_detonation", Flash )
+			end)
+
 			HitRes.Damage	= FrArea * resiliance * damageMult * ductilitymult		-- Inflicted Damage
 			HitRes.Overkill = maxPenetration - armor					-- Remaining penetration
 			HitRes.Loss	= armor / maxPenetration					-- Energy loss in percents
@@ -66,6 +82,25 @@ if SERVER then
 		elseif penProb > math.random() then
 
 			local Penetration = math.min( maxPenetration, losArmor * effectiveness)
+
+			if maxPenetration > losArmor * effectiveness then
+
+				local HEWeight  = math.Min(maxPenetration * 0.001, 30) -- #nonukespls
+				local Radius	= ACE_CalculateHERadius( HEWeight )
+				local Owner	= (CPPI and Entity:CPPIGetOwner()) or NULL
+				local EntPos	= Entity:GetPos()
+
+				ACF_HE( EntPos , vector_up , HEWeight , HEWeight , Owner , Entity, Entity ) --ERABOOM
+
+				--util.Effect not working during MP workaround. Waiting a while fixes the issue.
+				timer.Simple(0.001, function()
+					local Flash = EffectData()
+						Flash:SetOrigin( EntPos )
+						Flash:SetNormal( -vector_up )
+						Flash:SetRadius( math.Round(math.max(Radius / 39.37 * 0.25, 1),2) )
+					util.Effect( "ace_scaled_detonation", Flash )
+				end)
+			end
 
 			HitRes.Damage	= ( Penetration / losArmorHealth / effectiveness ) ^ 2 * FrArea * resiliance * damageMult * ductilitymult
 			HitRes.Overkill = ( maxPenetration - Penetration )

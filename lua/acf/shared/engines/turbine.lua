@@ -11,14 +11,14 @@ ACF_DefineEngine( "Turbine-Small-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 160,
-	torque = 440,
+	torque = 660,
 	flywheelmass = 2.3,
 	idlerpm = 1400,
 	limitrpm = 10000,
 	iselec = true,
 	istrans = true,
 	flywheeloverride = 4167,
-	acepoints = 734
+	acepoints = 612
 } )
 
 ACF_DefineEngine( "Turbine-Medium-Trans", {
@@ -31,14 +31,14 @@ ACF_DefineEngine( "Turbine-Medium-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 320,
-	torque = 650,
+	torque = 975,
 	flywheelmass = 3.4,
 	idlerpm = 1800,
 	limitrpm = 12000,
 	iselec = true,
 	istrans = true,
 	flywheeloverride = 5000,
-	acepoints = 1316
+	acepoints = 1096
 } )
 
 ACF_DefineEngine( "Turbine-Large-Trans", {
@@ -51,14 +51,14 @@ ACF_DefineEngine( "Turbine-Large-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 880,
-	torque = 1592,
+	torque = 2388,
 	flywheelmass = 8.4,
 	idlerpm = 2000,
 	limitrpm = 13500,
 	iselec = true,
 	istrans = true,
 	flywheeloverride = 5625,
-	acepoints = 3621
+	acepoints = 3017
 } )
 
 ACF_DefineEngine( "Turbine-Small", {
@@ -71,13 +71,13 @@ ACF_DefineEngine( "Turbine-Small", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 200,
-	torque = 550,
+	torque = 825,
 	flywheelmass = 2.9,
 	idlerpm = 1400,
 	limitrpm = 10000,
 	iselec = true,
 	flywheeloverride = 4167,
-	acepoints = 918
+	acepoints = 765
 } )
 
 ACF_DefineEngine( "Turbine-Medium", {
@@ -90,13 +90,13 @@ ACF_DefineEngine( "Turbine-Medium", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 400,
-	torque = 813,
+	torque = 1220,
 	flywheelmass = 4.3,
 	idlerpm = 1800,
 	limitrpm = 12000,
 	iselec = true,
 	flywheeloverride = 5000,
-	acepoints = 1647
+	acepoints = 1372
 } )
 
 ACF_DefineEngine( "Turbine-Large", {
@@ -109,13 +109,13 @@ ACF_DefineEngine( "Turbine-Large", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 1100,
-	torque = 1990,
+	torque = 2985,
 	flywheelmass = 10.5,
 	idlerpm = 2000,
 	limitrpm = 13500,
 	iselec = true,
 	flywheeloverride = 5625,
-	acepoints = 4524
+	acepoints = 3770
 } )
 
 --Forward facing ground turbines
@@ -130,13 +130,13 @@ ACF_DefineEngine( "Turbine-Ground-Small", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 350,
-	torque = 800,
+	torque = 1200,
 	flywheelmass = 14.3,
 	idlerpm = 700,
 	limitrpm = 3000,
 	iselec = true,
 	flywheeloverride = 1667,
-	acepoints = 528
+	acepoints = 440
 } )
 
 ACF_DefineEngine( "Turbine-Ground-Medium", {
@@ -149,14 +149,14 @@ ACF_DefineEngine( "Turbine-Ground-Medium", {
 	enginetype = "Turbine", --This is done to give proper fuel consumption and make the turbines not instant-torque from idle
 	requiresfuel = true,
 	weight = 600,
-	torque = 1200,
+	torque = 1800,
 	flywheelmass = 29.6,
 	idlerpm = 600,
 	limitrpm = 3000,
 	iselec = true,
 	flywheeloverride = 1450,
 	pitch = 115,
-	acepoints = 766
+	acepoints = 638
 } )
 
 ACF_DefineEngine( "Turbine-Ground-Large", {
@@ -169,14 +169,14 @@ ACF_DefineEngine( "Turbine-Ground-Large", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 1650,
-	torque = 4000,
+	torque = 6000,
 	flywheelmass = 75,
 	idlerpm = 500,
 	limitrpm = 3000,
 	iselec = true,
 	flywheeloverride = 1250,
 	pitch = 135,
-	acepoints = 2472
+	acepoints = 2060
 } )
 
 --Transaxial Ground Turbines
@@ -191,14 +191,14 @@ ACF_DefineEngine( "Turbine-Small-Ground-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 280,
-	torque = 600,
+	torque = 900,
 	flywheelmass = 11.4,
 	idlerpm = 700,
 	limitrpm = 3000,
 	iselec = true,
 	istrans = true,
 	flywheeloverride = 1667,
-	acepoints = 881
+	acepoints = 734
 } )
 
 ACF_DefineEngine( "Turbine-Medium-Ground-Trans", {
@@ -211,7 +211,7 @@ ACF_DefineEngine( "Turbine-Medium-Ground-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 480,
-	torque = 900,
+	torque = 1350,
 	flywheelmass = 23.7,
 	idlerpm = 600,
 	limitrpm = 3000,
@@ -219,7 +219,7 @@ ACF_DefineEngine( "Turbine-Medium-Ground-Trans", {
 	istrans = true,
 	flywheeloverride = 1450,
 	pitch = 115,
-	acepoints = 1580
+	acepoints = 1316
 } )
 
 ACF_DefineEngine( "Turbine-Large-Ground-Trans", {
@@ -232,7 +232,7 @@ ACF_DefineEngine( "Turbine-Large-Ground-Trans", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 1320,
-	torque = 3000,
+	torque = 4500,
 	flywheelmass = 60,
 	idlerpm = 500,
 	limitrpm = 3000,
@@ -240,7 +240,7 @@ ACF_DefineEngine( "Turbine-Large-Ground-Trans", {
 	istrans = true,
 	flywheeloverride = 1250,
 	pitch = 135,
-	acepoints = 4344
+	acepoints = 3620
 } )
 
 
@@ -256,14 +256,14 @@ ACF_DefineEngine( "(+)Turbine-Small-SuperAero", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 72,
-	torque = 350,
+	torque = 525,
 	flywheelmass = 0.5,
 	idlerpm = 1000,
 	limitrpm = 14000,
 	iselec = true,
 	pitch = 70,
 	flywheeloverride = 12000,
-	acepoints = 762
+	acepoints = 635
 } )
 
 
@@ -278,7 +278,7 @@ ACF_DefineEngine( "AGT 1500 Large Turbine", {
 	enginetype = "Turbine",
 	requiresfuel = true,
 	weight = 2500,
-	torque = 5355 / 1.25, --Engines with fuel required get a 25% torque boost, divide by 1.25 to use proper torque value
+	torque = 8032 / 1.25, --Engines with fuel required get a 25% torque boost, divide by 1.25 to use proper torque value
 	torquecurve = {0.9, 1, 0.99, 0.98, 0.95, 0.9, 0.83, 0.77, 0.72, 0.67},
 	flywheelmass = 10.5,
 	idlerpm = 750,
@@ -286,5 +286,5 @@ ACF_DefineEngine( "AGT 1500 Large Turbine", {
 	iselec = true,
 	pitch = 130,
 	flywheeloverride = 5300,
-	acepoints = 4222
+	acepoints = 3518
 } )

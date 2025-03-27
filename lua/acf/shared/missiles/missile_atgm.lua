@@ -405,7 +405,7 @@ ACF_defineGun("FGM-148 ASM", {
 		armour				= 13,							-- Armour effectiveness of casing, in mm
 
 		turnrate			= 320,							--Turn rate of missile at max deflection per 100 m/s
-		finefficiency		= 0.3,							--Fraction of speed redirected every second at max deflection
+		finefficiency		= 0.45,							--Fraction of speed redirected every second at max deflection
 		thrusterturnrate	= 30,							--Max turnrate from thrusters regardless of speed. Active only if the missile motor is active.
 
 		thrust				= 20,							-- Acceleration in m/s.
@@ -445,7 +445,7 @@ ACF_defineGun("FGM-148 ASM", {
 
 	armdelay		= 1,										-- minimum fuse arming delay
 	ghosttime		= 0.3,									-- Time where this missile will be unable to hit surfaces, in seconds
-	SeekSensitivity    = 3
+	SeekSensitivity    = 35
 
 } )
 
@@ -494,14 +494,14 @@ ACF_defineGun("Spike-LR ASM", {
 		fusetime			= 20,							--Time in seconds after launch/booster stop before missile scuttles
 
 		dragcoef			= 0.003,						-- percent speed loss per second
-		inertialcapable		= false,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
+		inertialcapable		= true,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
 		datalink			= false,
 		predictiondelay		= 0.1,							-- Delay before enabling missile steering guidance. Missile will run straight at the aimpoint until this time. Done to cause missile to not self delete because it tries to steer its velocity at launch.
 
 		penmul			= math.sqrt(2.5),					-- HEAT velocity multiplier. Squared relation to penetration (math.sqrt(2) means 2x pen)	--was 0.797
 		calmul			= 0.5,	--Adjust this first. Used to balance the damage of kinetic missiles. Multiplier for the projectile caliber. Won't affect HEAT.
 		velmul			= 7,		--Used to balance the penetration of kinetic missiles. Multiplier for the velocity of the projectile on impact.
-		pointcost			= 333
+		pointcost			= 400
 	},
 
 	ent				= "acf_missile_to_rack",						-- A workaround ent which spawns an appropriate rack for the missile.
@@ -510,7 +510,7 @@ ACF_defineGun("Spike-LR ASM", {
 	fuses			= {"Contact", "Optical", "Timed", "Altitude"},
 
 	seekcone		= 1.5,										-- getting inside this cone will get you locked.  Divided by 2 ('seekcone = 40' means 80 degrees total.)	--was 25
-	viewcone		= 60,										-- getting outside this cone will break the lock.  Divided by 2.
+	viewcone		= 120,										-- getting outside this cone will break the lock.  Divided by 2.
 	racks			= {									-- a whitelist for racks that this missile can load into.
 						["1xRK"] = true,
 						["2xRK"] = true,
@@ -522,7 +522,7 @@ ACF_defineGun("Spike-LR ASM", {
 					},
 
 	armdelay	= 0.15,										-- minimum fuse arming delay
-	SeekSensitivity    = 3
+	SeekSensitivity    = 40
 
 } )
 
@@ -627,9 +627,9 @@ ACF_defineGun("AGM-114 ASM", {						--id
 
 		armour				= 21,							-- Armour effectiveness of casing, in mm
 
-		turnrate			= 30,							--Turn rate of missile at max deflection per 100 m/s
-		finefficiency		= 0.5,							--Fraction of speed redirected every second at max deflection
-		thrusterturnrate	= 3,							--Max turnrate from thrusters regardless of speed. Active only if the missile motor is active.
+		turnrate			= 5,							--Turn rate of missile at max deflection per 100 m/s
+		finefficiency		= 0.4,							--Fraction of speed redirected every second at max deflection
+		thrusterturnrate	= 7,							--Max turnrate from thrusters regardless of speed. Active only if the missile motor is active.
 
 		thrust				= 70,							-- Acceleration in m/s.
 		burntime			= 3.55,							-- time in seconds for rocket motor to burn at max proppelant.

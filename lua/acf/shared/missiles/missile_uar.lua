@@ -38,8 +38,8 @@ ACF_defineGun("SPG-9 ASR", { --id
 		rackmdl				= "models/munitions/round_100mm_mortar_shot.mdl",
 		firedelay			= 0.25,
 		reloadspeed			= 0.3,
-		reloaddelay			= 15.0,
-		inaccuracy			= 0.4,
+		reloaddelay			= 7.0,
+		inaccuracy			= 0.01,
 
 		maxlength			= 240,							-- Length of missile. Used for ammo properties.
 		propweight			= 1,							-- Motor mass - motor casing. Used for ammo properties.
@@ -62,7 +62,7 @@ ACF_defineGun("SPG-9 ASR", { --id
 		boostertime			= 1.8,							-- Time in seconds for booster runtime
 		boostdelay			= 0,							-- Delay in seconds before booster activates.
 
-		fusetime			= 20,							--Time in seconds after launch/booster stop before missile scuttles
+		fusetime			= 60,							--Time in seconds after launch/booster stop before missile scuttles
 
 		dragcoef			= 0.0015,						-- percent speed loss per second
 		inertialcapable		= false,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
@@ -131,7 +131,7 @@ ACF_defineGun("RS82 ASR", { --id
 		boostertime			= 1.1,							-- Time in seconds for booster runtime
 		boostdelay			= 0,							-- Delay in seconds before booster activates.
 
-		fusetime			= 20,							--Time in seconds after launch/booster stop before missile scuttles
+		fusetime			= 60,							--Time in seconds after launch/booster stop before missile scuttles
 
 		dragcoef			= 0.002,						-- percent speed loss per second
 		inertialcapable		= false,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
@@ -200,7 +200,7 @@ ACF_defineGun("HVAR ASR", { --id
 		boostertime			= 1.1,							-- Time in seconds for booster runtime
 		boostdelay			= 0,							-- Delay in seconds before booster activates.
 
-		fusetime			= 20,							--Time in seconds after launch/booster stop before missile scuttles
+		fusetime			= 60,							--Time in seconds after launch/booster stop before missile scuttles
 
 		dragcoef			= 0.002,						-- percent speed loss per second
 		inertialcapable		= false,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
@@ -268,7 +268,7 @@ ACF_defineGun("S-24 ASR", { --id
 		boostertime			= 1.1,							-- Time in seconds for booster runtime
 		boostdelay			= 0,							-- Delay in seconds before booster activates.
 
-		fusetime			= 20,							--Time in seconds after launch/booster stop before missile scuttles
+		fusetime			= 60,							--Time in seconds after launch/booster stop before missile scuttles
 
 		dragcoef			= 0.004,						-- percent speed loss per second
 		inertialcapable		= false,							-- Whether missile is capable of inertial guidance. Inertially guided missiles will follow their last track after losing the target. And can be fired offbore outside their seeker's viewcone.
