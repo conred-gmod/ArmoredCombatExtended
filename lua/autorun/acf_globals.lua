@@ -387,6 +387,7 @@ if SERVER then
 	include("acf/server/sv_acfballistics.lua")
 	include("acf/server/sv_contraption.lua")
 	include("acf/server/sv_heat.lua")
+	include("acf/server/sv_countermeasures.lua")
 	include("acf/server/sv_legality.lua")
 	include("acf/server/sv_acfpermission.lua")
 	include("acf/server/sv_contraptionlegality.lua")

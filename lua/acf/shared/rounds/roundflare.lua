@@ -14,31 +14,21 @@ Round.netid = 23 --Unique ammotype ID for network transmission
 Round.Type  = "FLR"
 
 function Round.create( Gun, BulletData )
+    local fillerCoeff = BulletData.FillerMass or 1
 
-	local ent = ents.Create( "ace_flare" )
-
-	if ( IsValid( ent ) ) then
-
-		ent:SetPos( BulletData.Pos )
-		ent:SetAngles( BulletData.Flight:Angle() )
-		ent.Life = (BulletData.FillerMass or 1) / (0.4 * ACFM.FlareBurnMultiplier)
-		ent:Spawn()
-		ent:SetOwner( Gun )
-		ent:CPPISetOwner( Gun:CPPIGetOwner())
-		ent:SetColor( Color( 0, 0, 1, 1 ) ) --Blue set to 1 for flare
-
-		local phys = ent:GetPhysicsObject()
-		phys:SetVelocity( BulletData.Flight * 0.35 )
-		local avgFac = 1 - math.Rand(0.5,1.0)
-		ent.Thermal = (BulletData.FillerMass or 1) * 641 * avgFac -- 513 is 300 temperature for a standard 40mm flare. This is 1x an aircraft moving at 300 mph. I've added some extra measure. 1.71 * temp needed.
-
-		ent.FirstThermal = ent.Thermal
-		ent.RadarSig = 0.1 --Flares have a quarter of the radar signiture of a normal target
-		--print(avgFac)
-		--print(ent.Heat)
-
-	end
-
+    local avgFac = 1 - math.Rand(0.5,1.0)
+    -- 513 is 300 temperature for a standard 40mm flare. This is 1x an aircraft moving at 300 mph. I've added some extra measure. 1.71 * temp needed.
+    local temp = fillerCoeff * 641 * avgFac 
+    
+    return ACF_CreateFlare(
+        BulletData.Pos, 
+        BulletData.Flight * 0.35, 
+        Gun, {
+            Lifetime = fillerCoeff,
+            Temp = temp,
+            RadarSig = 0.1 --Flares have a quarter (?) of the radar signiture of a normal target
+        }
+    )
 end
 
 -- Function to convert the player's slider data into the complete round data
